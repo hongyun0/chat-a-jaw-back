@@ -1,0 +1,5 @@
+spring:
+  h2:
+    console:
+      enabled: true  # H2 웹 콘솔을 사용하겠다는 의미
+      path: /test_db  # 콘솔의 경로
