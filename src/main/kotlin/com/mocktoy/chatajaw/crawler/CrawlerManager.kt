@@ -1,10 +1,11 @@
 package com.mocktoy.chatajaw.crawler
 
 import com.mocktoy.chatajaw.crawler.danawa.DanawaCrawler
+import com.mocktoy.chatajaw.crawler.dealbada.DealBadaCrawler
 import com.mocktoy.chatajaw.crawler.naver.NaverShoppingCrawler
 import com.mocktoy.chatajaw.crawler.ppomppu.PpomppuCrawler
 
-class CrawlerManager(vararg type: Type = arrayOf(Type.DANAWA, Type.PPOMPPU, Type.NAVER)) {
+class CrawlerManager(vararg type: Type = arrayOf(Type.DANAWA, Type.PPOMPPU, Type.NAVER, Type.DEALBADA)) {
 
     private val crawlerManagers by lazy {
         type.map {
@@ -23,6 +24,7 @@ class CrawlerManager(vararg type: Type = arrayOf(Type.DANAWA, Type.PPOMPPU, Type
         DANAWA(DanawaCrawler::class.java),
         PPOMPPU(PpomppuCrawler::class.java),
         NAVER(NaverShoppingCrawler::class.java),
+        DEALBADA(DealBadaCrawler::class.java)
     }
 }
 
