@@ -59,7 +59,7 @@ private val mockHtml by lazy {
 }
 
 data class DealBadaModel(
-    override val number: String,
+    override val uid: String,
     override val title: String,
     override val price: String, // todo : it could be more than two so we should be handle it
     override val url: String

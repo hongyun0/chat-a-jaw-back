@@ -29,7 +29,7 @@ class ClienCrawler : Crawler<ClienModel> {
             it.select("a[data-role=list-title-text]").attr("href")
         )
     }.filter {
-        it.number.isNotEmpty() // Try to remove deleted post from model list
+        it.uid.isNotEmpty() // Try to remove deleted post from model list
     }
 }
 
@@ -43,7 +43,7 @@ private val mockHtml by lazy {
 }
 
 data class ClienModel(
-    override val number: String,
+    override val uid: String,
     override val title: String,
     override val price: String,
     override val url: String

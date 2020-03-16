@@ -57,7 +57,7 @@ private val mockHtml by lazy {
 }
 
 data class PpomppuModel(
-    override val number: String,
+    override val uid: String,
     override val title: String,
     override val price: String,
     override val url: String
