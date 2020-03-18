@@ -1,0 +1,41 @@
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "chat-a-jaw"
+  namespace: "default"
+  labels:
+    app: "chat-a-jaw"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "chat-a-jaw"
+  template:
+    metadata:
+      labels:
+        app: "chat-a-jaw"
+    spec:
+      containers:
+        - name: "github-mocktoy-chat-a-jaw-back--branch-name-1"
+          image: "gcr.io/chatajaw/github_mocktoy_chat-a-jaw-back_$BRANCH_NAME:$SHORT_SHA"
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "chat-a-jaw-hpa-dxd3"
+  namespace: "default"
+  labels:
+    app: "chat-a-jaw"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "chat-a-jaw"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: "Resource"
+      resource:
+        name: "cpu"
+        targetAverageUtilization: 80
