@@ -21,13 +21,13 @@ class CrawlerManager(vararg type: Type = DEFAULT_CRAWLER_LIST) {
         }
     }
 
-    fun search(keyword: Array<String>) = mutableListOf<Product>().apply {
+    fun search(keyword: Array<String>) = mutableListOf<Crawler.Product>().apply {
         crawlerManagers.forEach {
             addAll(it.startCrawler(Request(keyword)))
         }
     }
 
-    enum class Type(val cls: Class<out Crawler<out Product>>) {
+    enum class Type(val cls: Class<out Crawler<out Crawler.Product>>) {
         DANAWA(DanawaCrawler::class.java),
         PPOMPPU(PpomppuCrawler::class.java),
         NAVER(NaverShoppingCrawler::class.java),
