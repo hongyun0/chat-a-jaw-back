@@ -1,7 +1,6 @@
 package com.mocktoy.chatajaw.crawler.danawa
 
 import com.mocktoy.chatajaw.crawler.Crawler
-import com.mocktoy.chatajaw.crawler.Model
 import com.mocktoy.chatajaw.crawler.Request
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
@@ -9,10 +8,10 @@ import org.jsoup.select.Elements
 import java.io.File
 import java.nio.charset.Charset
 
-class DanawaCrawler : Crawler<DanawaModel> {
+class DanawaCrawler : Crawler<DanawaProduct> {
     override val baseUrl = "http://www.danawa.com/"
 
-    override fun startCrawler(request: Request): List<DanawaModel> {
+    override fun startCrawler(request: Request): List<DanawaProduct> {
 //        val url = "http://search.danawa.com/ajax/getProductList.ajax.php"
 //        val doc: Document = Jsoup.connect(url)
 //            .userAgent(Crawler.CommonHeader.userAgent)
@@ -25,7 +24,7 @@ class DanawaCrawler : Crawler<DanawaModel> {
     }
 
     private fun Elements.toDanawaModelList() = map {
-        DanawaModel(
+        DanawaProduct(
             it.attr("id"),
             it.select("p[class=prod_name]>a").text(),
             it.getPrice().text() ?: "",
@@ -51,10 +50,3 @@ private val mockHtml by lazy {
             .toString(Charset.forName("euc_kr"))
     )
 }
-
-data class DanawaModel(
-    override val uid: String,
-    override val title: String,
-    override val price: String, // todo : it could be more than two so we should be handle it
-    override val url: String
-) : Model

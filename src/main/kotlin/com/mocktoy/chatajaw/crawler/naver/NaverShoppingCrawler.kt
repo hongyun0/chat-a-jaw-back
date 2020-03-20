@@ -1,16 +1,15 @@
 package com.mocktoy.chatajaw.crawler.naver
 
 import com.mocktoy.chatajaw.crawler.Crawler
-import com.mocktoy.chatajaw.crawler.Model
 import com.mocktoy.chatajaw.crawler.Request
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
 import java.io.File
 import java.nio.charset.Charset
 
-class NaverShoppingCrawler : Crawler<NaverModel> {
+class NaverShoppingCrawler : Crawler<NaverProduct> {
     override val baseUrl = "https://shopping.naver.com/"
-    override fun startCrawler(request: Request): List<NaverModel> {
+    override fun startCrawler(request: Request): List<NaverProduct> {
 //        val url = "https://search.shopping.naver.com/search/all.nhn?query=${keyword.query[0]}&cat_id=&frm=NVSHATC"
 //        val doc: Document = Jsoup.connect(url)
 //            .userAgent(Crawler.CommonHeader.userAgent)
@@ -21,7 +20,7 @@ class NaverShoppingCrawler : Crawler<NaverModel> {
     }
 
     private fun Elements.toNaverModelList() = map {
-        NaverModel(
+        NaverProduct(
             it.attr("data-expose-id"),
             it.select("a[class=link]").text(),
             it.select("span[class=num _price_reload]").text(),
@@ -38,10 +37,3 @@ private val mockHtml by lazy {
             .toString(Charset.forName("utf-8"))
     )
 }
-
-data class NaverModel(
-    override val uid: String,
-    override val title: String,
-    override val price: String, // todo : it could be more than two so we should be handle it
-    override val url: String
-) : Model

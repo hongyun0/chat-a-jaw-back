@@ -1,24 +1,23 @@
 package com.mocktoy.chatajaw.crawler.ppomppu
 
 import com.mocktoy.chatajaw.crawler.Crawler
-import com.mocktoy.chatajaw.crawler.Model
 import com.mocktoy.chatajaw.crawler.Request
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
 import java.io.File
 import java.nio.charset.Charset
 
-class PpomppuCrawler : Crawler<PpomppuModel> {
+class PpomppuCrawler : Crawler<PpomppuProduct> {
     override val baseUrl: String = "https://www.ppomppu.co.kr/zboard"
 
-    override fun startCrawler(request: Request): List<PpomppuModel> {
-        return mutableListOf<PpomppuModel>().apply {
+    override fun startCrawler(request: Request): List<PpomppuProduct> {
+        return mutableListOf<PpomppuProduct>().apply {
             addAll(findInGukNae())
             addAll(findInHaeWei())
         }
     }
 
-    private fun findInGukNae(): List<PpomppuModel> {
+    private fun findInGukNae(): List<PpomppuProduct> {
 //        val url = "$baseUrl/zboard.php?id=ppomppu"
 //        val doc: Document = Jsoup.connect(url)
 //            .userAgent(Crawler.CommonHeader.userAgent)
@@ -30,7 +29,7 @@ class PpomppuCrawler : Crawler<PpomppuModel> {
         }.toPpomppuModelList()
     }
 
-    private fun findInHaeWei(): List<PpomppuModel> {
+    private fun findInHaeWei(): List<PpomppuProduct> {
         //        val url = "$baseUrl/zboard.php?id=ppomppu4"
         return mockHtml.select("tr[class=list0]").apply {
             addAll(mockHtml.select("tr[class=list1]"))
@@ -38,7 +37,7 @@ class PpomppuCrawler : Crawler<PpomppuModel> {
     }
 
     private fun Elements.toPpomppuModelList() = map {
-        PpomppuModel(
+        PpomppuProduct(
             it.select("td[class=eng list_vspace]").first().text(), // number
             it.select("a>font").text(), // title
             "",
@@ -55,10 +54,3 @@ private val mockHtml by lazy {
             .toString(Charset.forName("euc_kr"))
     )
 }
-
-data class PpomppuModel(
-    override val uid: String,
-    override val title: String,
-    override val price: String,
-    override val url: String
-) : Model

@@ -13,7 +13,7 @@ class CrawlerController {
     }
 
     @RequestMapping(value = ["/testSearch"], method = [RequestMethod.GET])
-    fun search(@RequestParam("keyword") arg: String): List<Model> {
+    fun search(@RequestParam("keyword") arg: String): List<Crawler.Product> {
         return manager.search(arrayOf(arg))
     }
 }
