@@ -7,10 +7,7 @@ import javax.persistence.Entity
 import javax.persistence.Id
 
 @Entity
-class User(duid: UUID, createAt: LocalDateTime = LocalDateTime.now(), lastAccessAt: LocalDateTime = LocalDateTime.now()) {
-    @Id
-    @Column(columnDefinition = "BINARY(16)")
-    val duid: UUID = duid
-    val createAt: LocalDateTime = createAt
-    val lastAccessAt: LocalDateTime = lastAccessAt
+class User(@Id @Column(columnDefinition = "BINARY(16)") val duid: UUID,
+           val createAt: LocalDateTime = LocalDateTime.now(),
+           val lastAccessAt: LocalDateTime = LocalDateTime.now()) {
 }
