@@ -12,6 +12,8 @@ group = "com.mocktoy"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
+val firebaseVersion = "6.8.1"
+
 val developmentOnly by configurations.creating
 configurations {
 	runtimeClasspath {
@@ -34,9 +36,8 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-
 	implementation("org.jsoup:jsoup:1.13.1")
-
+	implementation("com.google.firebase:firebase-admin:${firebaseVersion}")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly ("mysql:mysql-connector-java")
