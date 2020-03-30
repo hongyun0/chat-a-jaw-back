@@ -1,4 +1,14 @@
 spring:
+  profiles:
+    active: local
+
+google.firebase:
+  url: https://chat-a-jaw.firebaseio.com
+
+---
+spring:
+  profiles: test
+
   h2:
     console:
       enabled: true  # H2 웹 콘솔을 사용하겠다는 의미
