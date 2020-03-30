@@ -3,6 +3,7 @@ package com.mocktoy.chatajaw.notification
 
 import com.google.firebase.messaging.BatchResponse
 import com.mocktoy.chatajaw.exception.DuplicateUserTokenException
+import com.mocktoy.chatajaw.logger.Log
 import com.mocktoy.chatajaw.notification.dto.NotificationDto
 import com.mocktoy.chatajaw.notification.dto.NotificationResultDto
 import com.mocktoy.chatajaw.notification.dto.UserTokenDto
@@ -10,13 +11,14 @@ import com.mocktoy.chatajaw.notification.entity.UserToken
 import org.springframework.stereotype.Service
 import java.util.*
 
-
 @Service
 class NotificationService(private val firebaseManager: FirebaseManager,
                           private val userTokenRepository: UserTokenRepository) {
+    companion object : Log
 
     fun register(dto: UserTokenDto) {
-        println(dto)
+        log.info("Token register start: {}", dto)
+
         val duplicates = userTokenRepository.findAllByUserIdEqualsOrTokenEquals(dto.userId, dto.token)
         if (duplicates.isNotEmpty()) {
             throw DuplicateUserTokenException("중복된 값이 있습니다.")
@@ -27,7 +29,8 @@ class NotificationService(private val firebaseManager: FirebaseManager,
     }
 
     fun send(dto: NotificationDto): NotificationResultDto {
-        println(dto)
+        log.info("Notification send start: {}", dto)
+
         val targetTokens = if (dto.targetTokens.isNotEmpty()) dto.targetTokens
         else userTokenRepository.findAll().map { it.token }
 
@@ -35,7 +38,7 @@ class NotificationService(private val firebaseManager: FirebaseManager,
 
         if (response.hasFailure()) {
             val failureTokens = response.getFailureTokens(targetTokens)
-            println("Notification send failed.(${failureTokens.size}/${targetTokens.size})")
+            log.warn("Notification send failed.(${failureTokens.size}/${targetTokens.size})")
             return NotificationResultDto(response.successCount, response.failureCount, failureTokens)
         }
         return NotificationResultDto(response.successCount, response.failureCount)
